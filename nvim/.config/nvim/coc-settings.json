@@ -20,9 +20,22 @@
         "reason"
       ],
       "rootPatterns": [
-        "dune-project", ".git", ".ocamlformat", "*.opam"
+        "dune-project",
+        ".git",
+        ".ocamlformat",
+        "*.opam"
       ],
       "formatter": "ocamlformat"
+    },
+    "idris2-lsp": {
+      "command": "idris2-lsp",
+      "filetypes": [
+        "idris2"
+      ],
+      "rootPatterns": [
+        "pack.toml",
+        ".git"
+      ]
     }
   },
   "htmldjango.djlint.indent": 2
