@@ -132,3 +132,8 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 [[ -f /home/niten/.dart-cli-completion/zsh-config.zsh ]] && . /home/niten/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+
+# opencode
+export PATH=/home/niten/.opencode/bin:$PATH
+export PATH=/home/niten/soft/depot_tools:$PATH
+export PATH=/home/niten/soft/swift/usr/bin:$PATH

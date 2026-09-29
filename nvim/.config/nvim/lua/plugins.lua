@@ -39,20 +39,43 @@ return packer.startup(function(use)
 
   use 'wakatime/vim-wakatime'
 
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    config = function()
-      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
-      ts_update()
-      require 'nvim-treesitter.configs'.setup {
-        ensure_installed = { "cpp", "c", "lua", "python", "vim", "vimdoc", "query", "nix", "markdown", "markdown_inline" },
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
+  -- nvim-treesitter: the frozen `master` branch (old API) only supports Nvim <= 0.11,
+  -- while the rewritten `main` branch (new API) requires Nvim >= 0.12.
+  local ts_version = vim.version()
+  local ts_use_new_api = (ts_version.major > 0) or (ts_version.major == 0 and ts_version.minor >= 12)
+
+  if ts_use_new_api then
+    use({
+      'nvim-treesitter/nvim-treesitter',
+      branch = 'main',
+      config = function()
+        require('nvim-treesitter').setup {
+          install_dir = fn.stdpath('data') .. '/site',
         }
-      }
-    end,
-  }
+        require('nvim-treesitter').install { "cpp", "c", "lua", "python", "vim", "vimdoc", "query", "nix", "markdown", "markdown_inline" }
+        vim.api.nvim_create_autocmd('FileType', {
+          pattern = { 'c', 'cpp', 'lua', 'python', 'vim', 'vimdoc', 'query', 'nix', 'markdown' },
+          callback = function() vim.treesitter.start() end,
+        })
+      end,
+    })
+  else
+    use({
+      'nvim-treesitter/nvim-treesitter',
+      branch = 'master',
+      config = function()
+        local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+        ts_update()
+        require 'nvim-treesitter.configs'.setup {
+          ensure_installed = { "cpp", "c", "lua", "python", "vim", "vimdoc", "query", "nix", "markdown", "markdown_inline" },
+          highlight = {
+            enable = true,
+            additional_vim_regex_highlighting = false,
+          }
+        }
+      end,
+    })
+  end
 
   -- use {
   --   'neovim/nvim-lspconfig',
@@ -286,10 +309,10 @@ return packer.startup(function(use)
     vim.cmd [[hi CursorLine ctermbg=None guibg=None term=underline gui=underline]]
   end }
 
-  use {"3rd/image.nvim", config = function() 
-    require('image').setup{
-    }
-  end }
+  -- use {"3rd/image.nvim", config = function() 
+  --   require('image').setup{
+  --   }
+  -- end }
 
   use "sindrets/diffview.nvim"
 

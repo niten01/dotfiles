@@ -1,6 +1,9 @@
 {
   "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/20.1.8/clangd_20.1.8/bin/clangd",
-  "clangd.arguments": [],
+  "clangd.arguments": [
+    "-j=10",
+    "--background-index=true"
+  ],
   "snippets.ultisnips.pythonPrompt": false,
   "python.analysis.typeCheckingMode": "off",
   "languageserver": {
@@ -21,5 +24,6 @@
       ],
       "formatter": "ocamlformat"
     }
-  }
+  },
+  "htmldjango.djlint.indent": 2
 }
