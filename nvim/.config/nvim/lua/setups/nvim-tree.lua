@@ -44,5 +44,6 @@ return {
     -- custom commands
     vim.api.nvim_create_user_command('NvimTree', ff, {})
     vim.api.nvim_create_user_command('NT', ff, {})
+    vim.api.nvim_create_user_command('NN', ff, {})
   end
 }
